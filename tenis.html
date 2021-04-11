@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gra w tenisa</title>
     <link href="normalize.css" rel="stylesheet" type="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <canvas></canvas>
+  </head>
+  <body>
+    <header class="header">
+      <h1>TENIS</h1>
+    </header>
+
+    <main>
+      <section class="section">
+        <article class="article-info">
+          <div class="player player-human">Player: 0</div>
+          <div class="player">VS</div>
+          <div class="player player-ai">Computer: 0</div>
+        </article>
+      </section>
+      <section class="section">
+        <canvas></canvas>
+      </section>
+      <section class="section">
+        <button>START</button>
+      </section>
+    </main>
     <script src="main.js"></script>
-</body>
-</html> 
+  </body>
+</html>

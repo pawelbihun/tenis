@@ -1,10 +1,22 @@
 body {
     margin: 0; 
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100vh;
     background-color: darkgray;
 }
 canvas {border: 3px solid #fff;}
+
+header {
+    text-align: center;
+    font-size: 40;
+}
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1000px;
+    padding: 30px;
+}
+.article-info {
+    display: grid;
+}

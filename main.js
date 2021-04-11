@@ -27,6 +27,23 @@ let ballSpeedY = 2;
 
 topCanvas = canvas.offsetTop;
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+function resetGame(){
+    ballX = cw/2 - ballSize/2;
+    ballY = ch/2 - ballSize/2;
+    ballSpeedX = 2;
+    // losowy kąt staru piłki 
+    const random = (getRandomInt(3) + 1);
+    ballSpeedY = random;
+    // losowo piłka w górę lub dół
+    if (getRandomInt(2)){
+        console.log("true");
+        ballSpeedY = -ballSpeedY;
+    }
+}
 
 function player() {
     ctx.fillStyle = 'green';
@@ -43,11 +60,16 @@ function ball() {
         ballSpeedY = -ballSpeedY;
         //speedUp();
     }
-    // wyłączamy odbicie od końcowych lini pionowych
-    // if (ballX <= 0 || ballX + ballSize >= cw){
-    //     ballSpeedX = -ballSpeedX;
-    //     // speedUp();
-    // }
+    // punkt dla ai
+    if (ballX + ballSize <= 0){
+        console.log("punkt dla ai");
+        resetGame();
+    }
+    // punkt dla player
+    if (ballX >= cw){
+        console.log("punkt dla player");
+        resetGame();
+    }
     // odbicie piłki od rakietki gracza
     if (ballX <= (playerX + paddleWidht) && (ballY + ballSize) >= playerY && ballY <= (playerY + paddelHeight)){
         ballSpeedX = -ballSpeedX;
@@ -132,6 +154,8 @@ function aiPosition(){
             aiY += 3;                }
     }
 }
+
+
 
 canvas.addEventListener("mousemove", playerPosition)
 function game() {
