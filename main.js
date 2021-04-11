@@ -27,6 +27,30 @@ let ballSpeedY = 2;
 
 topCanvas = canvas.offsetTop;
 
+let playerScores = 0;
+let aiScores = 0;
+const playerScoresDoc = document.querySelector(".player-scores--js");
+const aiScoresDoc = document.querySelector(".ai-scores--js");
+
+const localStorageValuePS = localStorage.getItem("PS");
+if (localStorageValuePS) {
+    playerScores = localStorageValuePS;
+} else {
+  localStorage.setItem("PS" , 0);
+}
+
+const localStorageValueAIS = localStorage.getItem("AIS");
+if (localStorageValueAIS) {
+    aiScores = localStorageValueAIS;
+} else {
+  localStorage.setItem("AIS" , 0);
+}
+
+// tymczasowe
+console.log("PS: ", playerScores);
+console.log("AIS: ", aiScores);
+
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -62,11 +86,16 @@ function ball() {
     }
     // punkt dla ai
     if (ballX + ballSize <= 0){
+        aiScores++;
+        localStorage.setItem("AIS", aiScores);
+        aiScoresDoc.innerHTML = aiScores;
         console.log("punkt dla ai");
         resetGame();
     }
     // punkt dla player
     if (ballX >= cw){
+        playerScores++;
+        localStorage.setItem("PS", playerScores);
         console.log("punkt dla player");
         resetGame();
     }
