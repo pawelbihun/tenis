@@ -61,7 +61,6 @@ function resetGame() {
   ballSpeedY = random;
   // losowo piłka w górę lub dół
   if (getRandomInt(2)) {
-    console.log("true");
     ballSpeedY = -ballSpeedY;
   }
 }
@@ -100,9 +99,12 @@ function ball() {
   // odbicie piłki od rakietki gracza
   if (
     ballX <= playerX + paddleWidht &&
+    ballY <= playerY + paddelHeight &&
     ballY + ballSize >= playerY &&
-    ballY <= playerY + paddelHeight
+    ballX >= playerX
+    
   ) {
+    ballX = playerX + paddleWidht + 1;
     ballSpeedX = -ballSpeedX;
     speedUp();
   }
@@ -110,8 +112,10 @@ function ball() {
   if (
     ballX + ballSize >= aiX &&
     ballY + ballSize >= aiY &&
-    ballY <= aiY + paddelHeight
+    ballY <= aiY + paddelHeight &&
+    ballX + ballSize <= aiX + paddleWidht
   ) {
+    ballX = aiX - ballSize - 1;
     ballSpeedX = -ballSpeedX;
     speedUp();
   }
@@ -195,7 +199,6 @@ function game() {
 setInterval(game, 1000 / 60);
 
 const buttonRestart = document.querySelector(".restart");
-console.log(buttonRestart);
 buttonRestart.addEventListener("click", () => {
   // reset player
   playerScores = 0;
