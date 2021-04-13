@@ -56,12 +56,15 @@ function resetGame() {
   ballX = cw / 2 - ballSize / 2;
   ballY = ch / 2 - ballSize / 2;
   ballSpeedX = 2;
-  // losowy kąt staru piłki
+  // losowy kąt startu piłki
   const random = getRandomInt(3) + 1;
   ballSpeedY = random;
-  // losowo piłka w górę lub dół
+  // losowo piłka w lewo lub prawo
   if (getRandomInt(2)) {
     ballSpeedY = -ballSpeedY;
+  }
+  if (getRandomInt(2)) {
+    ballSpeedX = -ballSpeedX;
   }
 }
 
@@ -210,4 +213,17 @@ buttonRestart.addEventListener("click", () => {
   localStorage.setItem("AIS", aiScores);
   //reset game
   resetGame();
+});
+
+const buttonEasy = document.querySelector(".easy--js");
+buttonEasy.addEventListener("click", () => {
+  console.log("easy game difficulty");
+});
+const buttonMedium = document.querySelector(".medium--js");
+buttonMedium.addEventListener("click", () => {
+  console.log("medium game difficulty");
+});
+const buttonHard = document.querySelector(".hard--js");
+buttonHard.addEventListener("click", () => {
+  console.log("hard game difficulty");
 });
