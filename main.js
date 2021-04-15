@@ -22,8 +22,40 @@ let aiY = 200;
 const lineWidht = 6;
 const lineHeight = 16;
 
-let ballSpeedX = 2;
-let ballSpeedY = 2;
+// gd = game difficulty
+const gd = {
+  easy: {
+    ballSpeedIncrease: 0.1,
+    ballSpeedMax: 12,
+    ballSpeed: 2,
+    aiYSmaller: 5,
+    aiYGreater: 15
+  },
+  medium: {
+    ballSpeedIncrease: 0.3,
+    ballSpeedMax: 16,
+    ballSpeed: 3,
+    aiYSmaller: 10,
+    aiYGreater: 20
+  },
+  hard: {
+    ballSpeedIncrease: 0.5,
+    ballSpeedMax: 20,
+    ballSpeed: 4,
+    aiYSmaller: 20,
+    aiYGreater: 30
+  }
+}
+
+let ballSpeedIncrease = gd.easy.ballSpeedIncrease;
+let ballSpeedMax = gd.easy.ballSpeedMax;
+let ballSpeed = gd.easy.ballSpeed;
+
+
+let ballSpeedX = ballSpeed;
+let ballSpeedY = ballSpeed;
+let aiYGreater = gd.easy.aiYGreater;
+let aiYSmaller = gd.easy.aiYSmaller;
 
 topCanvas = canvas.offsetTop;
 
@@ -69,7 +101,7 @@ function resetGame() {
 }
 
 function player() {
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "red";
   ctx.fillRect(playerX, playerY, paddleWidht, paddelHeight);
 }
 
@@ -134,7 +166,7 @@ function table() {
 }
 
 function ai() {
-  ctx.fillStyle = "yellow";
+  ctx.fillStyle = "blue";
   ctx.fillRect(aiX, aiY, paddleWidht, paddelHeight);
 }
 
@@ -150,37 +182,52 @@ function playerPosition(e) {
 
 function speedUp() {
   // speed X
-  if (ballSpeedX > 0 && ballSpeedX < 16) {
-    ballSpeedX += 0.3;
-  } else if (ballSpeedX < 0 && ballSpeedX > -16) {
-    ballSpeedX -= 0.3;
+  if (ballSpeedX > 0 && ballSpeedX < ballSpeedMax) {
+    ballSpeedX += ballSpeedIncrease;
+  } else if (ballSpeedX < 0 && ballSpeedX > -ballSpeedMax) {
+    ballSpeedX -= ballSpeedIncrease;
   }
   //speed Y
-  if (ballSpeedY > 0 && ballSpeedY < 16) {
-    ballSpeedY += 0.2;
-  } else if (ballSpeedY < 0 && ballSpeedY > -16) {
-    ballSpeedY -= 0.2;
+  if (ballSpeedY > 0 && ballSpeedY < ballSpeedMax) {
+    ballSpeedY += ballSpeedIncrease;
+  } else if (ballSpeedY < 0 && ballSpeedY > -ballSpeedMax) {
+    ballSpeedY -= ballSpeedIncrease;
   }
 }
 
 function aiPosition() {
   const middlePaddle = aiY + paddelHeight / 2;
   const middleBall = ballY + ballSize / 2;
-  // zmienić na zmienne i dostosować do poziomów trudno ści gry
-  if (ballX > 500) {
-    if (middlePaddle - middleBall > 200) {
-      //console.log(">+200");
-      aiY -= 15;
-    } else if (middlePaddle - middleBall > 50) {
-      // console.log("+50-200");
-      aiY -= 5;
-    } else if (middlePaddle - middleBall < -200) {
-      // console.log("<-200");
-      aiY += 15;
-    } else if (middlePaddle - middleBall < -50) {
-      // console.log("<-50-200");
-      aiY += 5;
-    }
+  // zmienić na zmienne i dostosować do poziomów trudności gry
+  // if (ballX > 500) {
+  //   if (middlePaddle - middleBall > 200) {
+  //     //console.log(">+200");
+  //     aiY -= 15;
+  //   } else if (middlePaddle - middleBall > 50) {
+  //     // console.log("+50-200");
+  //     aiY -= 5;
+  //   } else if (middlePaddle - middleBall < -200) {
+  //     // console.log("<-200");
+  //     aiY += 15;
+  //   } else if (middlePaddle - middleBall < -50) {
+  //     // console.log("<-50-200");
+  //     aiY += 5;
+  //   }
+
+    if (ballX > 500) {
+      if (middlePaddle - middleBall > 200) {
+        //console.log(">+200");
+        aiY -= aiYGreater;
+      } else if (middlePaddle - middleBall > 50) {
+        // console.log("+50-200");
+        aiY -= aiYSmaller;
+      } else if (middlePaddle - middleBall < -200) {
+        // console.log("<-200");
+        aiY += aiYGreater;
+      } else if (middlePaddle - middleBall < -50) {
+        // console.log("<-50-200");
+        aiY += aiYSmaller;
+      }
   } else if (ballX <= 500 && ballX > 150) {
     if (middlePaddle - middleBall > 100) {
       aiY -= 3;
@@ -189,6 +236,7 @@ function aiPosition() {
     }
   }
 }
+
 
 canvas.addEventListener("mousemove", playerPosition);
 function game() {
@@ -218,12 +266,35 @@ buttonRestart.addEventListener("click", () => {
 const buttonEasy = document.querySelector(".easy--js");
 buttonEasy.addEventListener("click", () => {
   console.log("easy game difficulty");
-});
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
+  ballSpeedIncrease = gd.easy.ballSpeedIncrease;
+  ballSpeedMax = gd.easy.ballSpeedMax;
+  ballSpeed = gd.easy.ballSpeed;
+  aiYGreater = gd.easy.aiYGreater;
+  aiYSmaller = gd.easy.aiYSmaller;
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
+  });
+
 const buttonMedium = document.querySelector(".medium--js");
 buttonMedium.addEventListener("click", () => {
   console.log("medium game difficulty");
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
+  ballSpeedIncrease = gd.medium.ballSpeedIncrease;
+  ballSpeedMax = gd.medium.ballSpeedMax;
+  ballSpeed = gd.medium.ballSpeed;
+  aiYGreater = gd.medium.aiYGreater;
+  aiYSmaller = gd.medium.aiYSmaller;
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
 });
+
 const buttonHard = document.querySelector(".hard--js");
 buttonHard.addEventListener("click", () => {
   console.log("hard game difficulty");
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
+  ballSpeedIncrease = gd.hard.ballSpeedIncrease;
+  ballSpeedMax = gd.hard.ballSpeedMax;
+  ballSpeed = gd.hard.ballSpeed;
+  aiYGreater = gd.hard.aiYGreater;
+  aiYSmaller = gd.hard.aiYSmaller;
+  console.log(`ballSpeedIncrease = ${ballSpeedIncrease}\nballSpeedMax = ${ballSpeedMax}\nballSpeed = ${ballSpeed}\naiYGreater = ${aiYGreater}\naiYSmaller = ${aiYSmaller}`);
 });
